@@ -1,0 +1,11 @@
+﻿  Render.cpp
+  main.cpp
+  Input.cpp
+  Entity.cpp
+  Behavior.cpp
+  App.cpp
+  Génération de code en cours...
+App.obj : warning LNK4075: ' /EDITANDCONTINUE' ignoré à cause de la spécification '/INCREMENTAL:NO'
+MSVCRTD.lib(initializers.obj) : warning LNK4098: conflit entre la bibliothèque par défaut 'msvcrt.lib' et les autres bibliothèques ; utilisez /NODEFAULTLIB:library
+SDLmain.lib(SDL_win32_main.obj) : warning LNK4217: symbole défini localement ___iob_func importé dans la fonction _ShowError
+  Steering.vcxproj -> D:\SVN\2017-2018\Sections\Prog3B\Sebastien Damiens\Cours_IA\14.0 Steering\Steering\Debug\Steering.exe
