@@ -178,6 +178,7 @@ bool FSMSteering::States(StateMachineEvent _event, Msg* _msg, int _state)
 		m_pSteering->ClearBehaviors();
 		m_pSteering->AddBehavior(new Evasion(m_pSteering, m_pTarget, 200.0f), 1.0f);
 		OnUpdate
+			m_pCharacterController->setAction(kAct_Walk);
 			m_pCharacterController->move(m_pSteering->getVelocity());
 		///////////////////////////////////////////////////////////////
 		State(STATE_Arrival)
@@ -187,6 +188,7 @@ bool FSMSteering::States(StateMachineEvent _event, Msg* _msg, int _state)
 		m_pSteering->ClearBehaviors();
 		m_pSteering->AddBehavior(new Arrival(m_pSteering, m_pTarget, 200.0f), 1.0f);
 		OnUpdate
+			m_pCharacterController->setAction(kAct_Walk);
 			m_pCharacterController->move(m_pSteering->getVelocity());
 		///////////////////////////////////////////////////////////////
 		State(STATE_ObstacleAvoidance)
@@ -196,6 +198,7 @@ bool FSMSteering::States(StateMachineEvent _event, Msg* _msg, int _state)
 		m_pSteering->ClearBehaviors();
 		m_pSteering->AddBehavior(new Flee(m_pSteering, m_pTarget), 1.0f);
 		OnUpdate
+			m_pCharacterController->setAction(kAct_Walk);
 			m_pCharacterController->move(m_pSteering->getVelocity());
 		///////////////////////////////////////////////////////////////
 		State(STATE_Wander)
@@ -203,8 +206,9 @@ bool FSMSteering::States(StateMachineEvent _event, Msg* _msg, int _state)
 			m_pCharacterController->setCondition(kACond_Default);
 		m_pCharacterController->setAction(kAct_Walk);
 		m_pSteering->ClearBehaviors();
-		m_pSteering->AddBehavior(new Flee(m_pSteering, m_pTarget), 1.0f);
+		m_pSteering->AddBehavior(new Wander(m_pSteering, 1.0f, 40.0f, 20.0f), 1.0f);
 		OnUpdate
+			m_pCharacterController->setAction(kAct_Walk);
 			m_pCharacterController->move(m_pSteering->getVelocity());
 		///////////////////////////////////////////////////////////////
 		State(STATE_PathFollowing)

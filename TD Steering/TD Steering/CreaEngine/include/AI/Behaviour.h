@@ -71,16 +71,16 @@ namespace crea
 		Vector2f& Update();
 	};
 
-	//class CREAENGINE_API Wander : public Behaviour
-	//{
-	//	double m_distance;
-	//	double m_radius;
-	//	double m_littleRadius;
-	//public:
-	//	Wander(Steering* _steering, double _distance, double _radius, double _littleRadius)
-	//		: Behaviour(_steering), m_distance(_distance), m_radius(_radius), m_littleRadius(_littleRadius) { };
-	//	Vector2f& Update();
-	//};
+	class CREAENGINE_API Wander : public Behaviour
+	{
+		double m_distance;
+		double m_radius;
+		double m_littleRadius;
+	public:
+		Wander(Steering* _steering, double _distance, double _radius, double _littleRadius)
+			: Behaviour(_steering), m_distance(_distance), m_radius(_radius), m_littleRadius(_littleRadius) { };
+		Vector2f& Update();
+	};
 
 	//class CREAENGINE_API PathFollowing : public Behaviour
 	//{

@@ -69,24 +69,24 @@ namespace crea
 		return m_steeringForce;
 	}
 
-	//Vector2f& Wander::Update()
-	//{
-	//	Vector2f direction = m_steering->getVelocity();
-	//	direction.normalize();
+	Vector2f& Wander::Update()
+	{
+		Vector2f direction = m_steering->getVelocity();
+		direction.normalize();
 
-	//	Vector2f center = direction * (m_steering->getMaxForce() - m_radius);
+		Vector2f center = direction * (m_steering->getMaxForce() - m_radius);
 
-	//	double value = (double)(rand() % 360);
-	//	Vector2f r(sin(value*PI / 180.0f) * m_littleRadius, cos(value*PI / 180.0f) * m_littleRadius);
-	//	Vector2f R = m_steering->getLastR();
-	//	R += r;
-	//	R.normalize();
-	//	R *= m_radius;
-	//	m_steeringForce = center + R;
-	//	m_steering->setLastR(R);
+		double value = (double)(rand() % 360);
+		Vector2f r(sin(value*PI / 180.0f) * m_littleRadius, cos(value*PI / 180.0f) * m_littleRadius);
+		Vector2f R = m_steering->getLastR();
+		R += r;
+		R.normalize();
+		R *= m_radius;
+		m_steeringForce = center + R;
+		m_steering->setLastR(R);
 
-	//	return m_steeringForce;
-	//}
+		return m_steeringForce;
+	}
 
 	//Vector2f& PathFollowing::Update()
 	//{
