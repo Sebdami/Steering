@@ -34,40 +34,40 @@ namespace crea
 		return m_steeringForce;
 	}
 
-	//Vector2f& Pursuit::Update()
-	//{
-	//	Vector2f targetOffset = m_steering->getPosition() - m_target->getPosition();
-	//	double fT = MathTools::min(m_fTmax, targetOffset.length());
-	//	Vector2f prediction = m_target->getPosition() + m_target->getVelocity() * fT;
-	//	m_desiredVelocity = prediction - m_steering->getPosition();
-	//	m_desiredVelocity.normalize();
-	//	m_desiredVelocity *= m_steering->getMaxSpeed();
-	//	m_steeringForce = m_desiredVelocity - m_steering->getVelocity();
-	//	return m_steeringForce;
-	//}
+	Vector2f& Pursuit::Update()
+	{
+		Vector2f targetOffset = m_steering->getPosition() - m_target->getPosition();
+		double fT = MathTools::min(m_fTmax, targetOffset.length());
+		Vector2f prediction = m_target->getPosition() + m_target->getVelocity() * fT;
+		m_desiredVelocity = prediction - m_steering->getPosition();
+		m_desiredVelocity.normalize();
+		m_desiredVelocity *= m_steering->getMaxSpeed();
+		m_steeringForce = m_desiredVelocity - m_steering->getVelocity();
+		return m_steeringForce;
+	}
 
-	//Vector2f& Evasion::Update()
-	//{
-	//	Vector2f targetOffset = m_steering->getPosition() - m_target->getPosition();
-	//	double fT = MathTools::min(m_fTmax, targetOffset.length());
-	//	Vector2f prediction = m_target->getPosition() + m_target->getVelocity() * fT;
-	//	m_desiredVelocity = m_steering->getPosition() - prediction;
-	//	m_desiredVelocity.normalize();
-	//	m_desiredVelocity *= m_steering->getMaxSpeed();
-	//	m_steeringForce = m_desiredVelocity - m_steering->getVelocity();
-	//	return m_steeringForce;
-	//}
+	Vector2f& Evasion::Update()
+	{
+		Vector2f targetOffset = m_steering->getPosition() - m_target->getPosition();
+		double fT = MathTools::min(m_fTmax, targetOffset.length());
+		Vector2f prediction = m_target->getPosition() + m_target->getVelocity() * fT;
+		m_desiredVelocity = m_steering->getPosition() - prediction;
+		m_desiredVelocity.normalize();
+		m_desiredVelocity *= m_steering->getMaxSpeed();
+		m_steeringForce = m_desiredVelocity - m_steering->getVelocity();
+		return m_steeringForce;
+	}
 
-	//Vector2f& Arrival::Update()
-	//{
-	//	Vector2f targetOffset = m_target->getPosition() - m_steering->getPosition();
-	//	double distance = targetOffset.length();
-	//	double rampedSpeed = m_steering->getMaxSpeed() * distance / m_fSlowingDistance;
-	//	double clippedSpeed = MathTools::min(rampedSpeed, m_steering->getMaxSpeed());
-	//	m_desiredVelocity = targetOffset * (clippedSpeed / distance);
-	//	m_steeringForce = m_desiredVelocity - m_steering->getVelocity();
-	//	return m_steeringForce;
-	//}
+	Vector2f& Arrival::Update()
+	{
+		Vector2f targetOffset = m_target->getPosition() - m_steering->getPosition();
+		double distance = targetOffset.length();
+		double rampedSpeed = m_steering->getMaxSpeed() * distance / m_fSlowingDistance;
+		double clippedSpeed = MathTools::min(rampedSpeed, m_steering->getMaxSpeed());
+		m_desiredVelocity = targetOffset * (clippedSpeed / distance);
+		m_steeringForce = m_desiredVelocity - m_steering->getVelocity();
+		return m_steeringForce;
+	}
 
 	//Vector2f& Wander::Update()
 	//{

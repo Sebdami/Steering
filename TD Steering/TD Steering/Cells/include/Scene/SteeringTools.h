@@ -84,6 +84,10 @@ class SteeringTools
 	RectangleShape* m_pCollisionNodeShape;
 	void DisplayCollider(MapStringCollider* _pColliders);
 
+	// Steering
+	ArrowShape* m_pVelocityShape;
+	ArrowShape* m_pForceShape;
+
 	// Cluster
 	RectangleShape* m_pClusterShape;
 	RectangleShape* m_pEntranceShape;

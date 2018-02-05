@@ -100,6 +100,18 @@ bool SteeringTools::onInit()
 	m_pCollisionNodeShape = new RectangleShape;
 	m_pCollisionNodeShape->setColor(pRedTransparent);
 
+
+	// Steering
+	m_pVelocityShape = new ArrowShape;
+	m_pVelocityShape->setOutlineColor(pGreenTransparent);
+	m_pVelocityShape->setColor(pGreenTransparent);
+	m_pVelocityShape->setSize(4.0f, 4.0f);
+
+	m_pForceShape = new ArrowShape;
+	m_pForceShape->setOutlineColor(pBlue);
+	m_pForceShape->setColor(pBlue);
+	m_pForceShape->setSize(4.0f, 4.0f);
+
 	// Cluster
 	m_pClusterShape = new RectangleShape;
 	m_pClusterShape->setOutlineColor(pBlue);
@@ -428,6 +440,15 @@ bool SteeringTools::onDraw()
 			szDiagnostics += to_string(m_pCharacterController->getCondition());
 			szDiagnostics += " Direct°: ";
 			szDiagnostics += to_string(m_pCharacterController->getDirection());
+		}
+
+		Steering* steering = pEntity->getComponent<Steering>();
+		if (steering)
+		{
+			m_pVelocityShape->setStartAndEnd(position.getX(), position.getY(), position.getX() + steering->getVelocity().getX()/2.0f, position.getY() + steering->getVelocity().getY()/2.0f);
+			m_pVelocityShape->draw();
+			m_pForceShape->setStartAndEnd(position.getX(), position.getY(), position.getX() + steering->getLastForce().getX()/2.0f, position.getY() + steering->getLastForce().getY()/2.0f);
+			m_pForceShape->draw();
 		}
 
 		m_pTextDiagnostics->setString(szDiagnostics);

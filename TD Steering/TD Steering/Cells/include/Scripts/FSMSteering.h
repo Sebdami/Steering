@@ -28,7 +28,7 @@ public:
 	virtual ~FSMSteering();
 	
 	virtual bool States(StateMachineEvent _event, Msg* _msg, int _state);
-	Entity*			m_pTarget;
+	Steering*			m_pTarget;
 };
 
 #endif

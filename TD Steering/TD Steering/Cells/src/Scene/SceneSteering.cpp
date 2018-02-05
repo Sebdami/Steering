@@ -35,7 +35,8 @@ bool SceneSteering::onInit()
 	m_pEntity3->addComponent(m_pMapRenderer);
 
 	m_pMouseEntity = m_pGM->getEntity("mouseEntity");
-	m_pGM->getEntity("peon1")->getComponent<FSMSteering>()->m_pTarget = m_pMouseEntity;
+	m_pMouseEntity->addComponent(new Steering(1, Vector2f(), 500, 200));
+	m_pGM->getEntity("peon1")->getComponent<FSMSteering>()->m_pTarget = m_pMouseEntity->getComponent<Steering>();
 	// Steering Tools
 	if (m_bUseSteeringTools)
 	{
@@ -57,7 +58,7 @@ bool SceneSteering::onUpdate()
 		m_pGM->setScene(new SceneGame());
 		return true;
 	}
-
+	m_pMouseEntity->getComponent<Steering>()->setVelocity((InputManager::getSingleton()->getMousePosition() - m_pMouseEntity->getPosition()) * 100.0f);
 	m_pMouseEntity->setPosition(InputManager::getSingleton()->getMousePosition());
 
 	// Steering Tools

@@ -30,46 +30,46 @@ namespace crea
 
 	class CREAENGINE_API Seek : public Behaviour
 	{
-		Entity* m_target;
+		Steering* m_target;
 	public:
-		Seek(Steering* _steering, Entity* _target) : Behaviour(_steering), m_target(_target) { };
+		Seek(Steering* _steering, Steering* _target) : Behaviour(_steering), m_target(_target) { };
 		Vector2f& Update();
 	};
 
 	class CREAENGINE_API Flee : public Behaviour
 	{
-		Entity* m_target;
+		Steering* m_target;
 	public:
-		Flee(Steering* _steering, Entity* _target) : Behaviour(_steering), m_target(_target) { };
+		Flee(Steering* _steering, Steering* _target) : Behaviour(_steering), m_target(_target) { };
 		Vector2f& Update();
 	};
 
-	//class CREAENGINE_API Pursuit : public Behaviour
-	//{
-	//	Steering* m_target;
-	//	float m_fTmax;
-	//public:
-	//	Pursuit(Steering* _steering, Steering* _target, float _fTmax) : Behaviour(_steering), m_target(_target), m_fTmax(_fTmax) { };
-	//	Vector2f& Update();
-	//};
+	class CREAENGINE_API Pursuit : public Behaviour
+	{
+		Steering* m_target;
+		float m_fTmax;
+	public:
+		Pursuit(Steering* _steering, Steering* _target, float _fTmax) : Behaviour(_steering), m_target(_target), m_fTmax(_fTmax) { };
+		Vector2f& Update();
+	};
 
-	//class CREAENGINE_API Evasion : public Behaviour
-	//{
-	//	Steering* m_target;
-	//	float m_fTmax;
-	//public:
-	//	Evasion(Steering* _steering, Steering* _target, float _fTmax) : Behaviour(_steering), m_target(_target), m_fTmax(_fTmax) { };
-	//	Vector2f& Update();
-	//};
+	class CREAENGINE_API Evasion : public Behaviour
+	{
+		Steering* m_target;
+		float m_fTmax;
+	public:
+		Evasion(Steering* _steering, Steering* _target, float _fTmax) : Behaviour(_steering), m_target(_target), m_fTmax(_fTmax) { };
+		Vector2f& Update();
+	};
 
-	//class CREAENGINE_API Arrival : public Behaviour
-	//{
-	//	Steering* m_target;
-	//	float m_fSlowingDistance;
-	//public:
-	//	Arrival(Steering* _steering, Steering* _target, float _fSlowingDistance) : Behaviour(_steering), m_target(_target), m_fSlowingDistance(_fSlowingDistance) { };
-	//	Vector2f& Update();
-	//};
+	class CREAENGINE_API Arrival : public Behaviour
+	{
+		Steering* m_target;
+		float m_fSlowingDistance;
+	public:
+		Arrival(Steering* _steering, Steering* _target, float _fSlowingDistance) : Behaviour(_steering), m_target(_target), m_fSlowingDistance(_fSlowingDistance) { };
+		Vector2f& Update();
+	};
 
 	//class CREAENGINE_API Wander : public Behaviour
 	//{
