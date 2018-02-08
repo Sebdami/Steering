@@ -46,8 +46,15 @@ bool SceneSteering::onInit()
 
 	m_pMouseEntity = m_pGM->getEntity("mouseEntity");
 	m_pMouseEntity->addComponent(new Steering(1, Vector2f(), 500, 200));
+
+	Entity* balista = m_pGM->getEntity("balista1");
+
+	targets = new vector<Steering*>();
+	targets->push_back(balista->getComponent<Steering>());
+
 	FSMSteering* fsm = m_pGM->getEntity("peon1")->getComponent<FSMSteering>();
 	fsm->m_pTarget = m_pMouseEntity->getComponent<Steering>();
+	fsm->m_vTargets = targets;
 	fsm->m_vPath = path;
 	// Steering Tools
 	if (m_bUseSteeringTools)
@@ -96,6 +103,7 @@ bool SceneSteering::onQuit()
 
 	delete m_pCellsScriptFactory;
 	delete path;
+	delete targets;
 	return true;
 }
 

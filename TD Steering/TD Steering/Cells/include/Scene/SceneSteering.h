@@ -30,7 +30,7 @@ class SceneSteering : public Scene
 	CellsScriptFactory* m_pCellsScriptFactory;
 
 	vector<Obstacle*>* path;
-
+	vector<Steering*>* targets;
 public:
 
 	SceneSteering();

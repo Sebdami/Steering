@@ -28,6 +28,7 @@ public:
 	
 	virtual bool States(StateMachineEvent _event, Msg* _msg, int _state);
 	Steering*			m_pTarget;
+	vector<Steering*>*	m_vTargets;
 	vector<Obstacle*>*	m_vPath;
 
 

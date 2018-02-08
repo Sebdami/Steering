@@ -29,6 +29,10 @@
 		{
 			"type":"Script",
 			"name":"FSMBalista"		
+		},
+		{
+			"type":"Steering",
+			"name":"Balista/Balista1.str"
 		}
 	]
 } 

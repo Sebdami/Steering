@@ -144,25 +144,25 @@ namespace crea
 		return m_steeringForce;
 	}
 
-	//Vector2f& UnalignedCollisionAvoidance::Update()
-	//{
-	//	Vector2f nextPosition = m_steering->getPosition() + m_steering->getVelocity() / 2.0f;
-	//	Vector2f nextPosition2, diff;
-	//	m_steeringForce = ORIGIN2;
-	//	for (std::vector<Steering*>::iterator i = m_entities->begin(); i != m_entities->end(); i++)
-	//	{
-	//		if ((*i) != m_steering)
-	//		{
-	//			nextPosition2 = (*i)->getPosition() + (*i)->getVelocity() / 2.0f;
-	//			diff = nextPosition - nextPosition2;
-	//			if (diff.length() < m_radius)
-	//			{
-	//				m_steeringForce += diff;
-	//			}
-	//		}
-	//	}
-	//	return m_steeringForce;
-	//}
+	Vector2f& UnalignedCollisionAvoidance::Update()
+	{
+		Vector2f nextPosition = m_steering->getPosition() + m_steering->getVelocity() / 2.0f;
+		Vector2f nextPosition2, diff;
+		m_steeringForce = Vector2f(0.0f, 0.0f);
+		for (std::vector<Steering*>::iterator i = m_entities->begin(); i != m_entities->end(); i++)
+		{
+			if ((*i) != m_steering)
+			{
+				nextPosition2 = (*i)->getPosition() + (*i)->getVelocity() / 2.0f;
+				diff = nextPosition - nextPosition2;
+				if (diff.length() < m_radius)
+				{
+					m_steeringForce += diff;
+				}
+			}
+		}
+		return m_steeringForce;
+	}
 
 	//Vector2f& ObstacleAvoidance::Update()
 	//{

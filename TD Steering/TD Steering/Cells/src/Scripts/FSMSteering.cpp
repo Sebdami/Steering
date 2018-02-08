@@ -200,7 +200,9 @@ bool FSMSteering::States(StateMachineEvent _event, Msg* _msg, int _state)
 			m_pCharacterController->setCondition(kACond_Default);
 		m_pCharacterController->setAction(kAct_Walk);
 		m_pSteering->ClearBehaviors();
-		m_pSteering->AddBehavior(new Flee(m_pSteering, m_pTarget), 1.0f);
+		m_pSteering->AddBehavior(new UnalignedCollisionAvoidance(m_pSteering, 120.0f, m_vTargets), 200.0f);
+		m_pSteering->AddBehavior(new Seek(m_pSteering, m_pTarget), 1.0f);
+		
 		OnUpdate
 			m_pCharacterController->move(m_pSteering->getVelocity());
 		///////////////////////////////////////////////////////////////
