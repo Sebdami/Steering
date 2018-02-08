@@ -11,6 +11,7 @@
 namespace crea
 {
 	class Steering;
+	class Obstacle;
 
 	class CREAENGINE_API Behaviour
 	{
@@ -82,17 +83,17 @@ namespace crea
 		Vector2f& Update();
 	};
 
-	//class CREAENGINE_API PathFollowing : public Behaviour
-	//{
-	//	float m_fC;
-	//	double m_radius;
-	//	double m_farView;
-	//	std::vector<Obstacle*>* m_obstacles;
-	//public:
-	//	PathFollowing(Steering* _steering, float _fC, double radius, double farView, std::vector<Obstacle*>* obstacles)
-	//		: Behaviour(_steering), m_fC(_fC), m_radius(radius), m_farView(farView), m_obstacles(obstacles) { };
-	//	Vector2f& Update();
-	//};
+	class CREAENGINE_API PathFollowing : public Behaviour
+	{
+		float m_fC;
+		double m_radius;
+		double m_farView;
+		std::vector<Obstacle*>* m_obstacles;
+	public:
+		PathFollowing(Steering* _steering, float _fC, double radius, double farView, std::vector<Obstacle*>* obstacles)
+			: Behaviour(_steering), m_fC(_fC), m_radius(radius), m_farView(farView), m_obstacles(obstacles) { };
+		Vector2f& Update();
+	};
 
 	//class CREAENGINE_API UnalignedCollisionAvoidance : public Behaviour
 	//{

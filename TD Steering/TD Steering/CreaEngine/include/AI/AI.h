@@ -24,5 +24,6 @@ namespace crea
 #include "Agent.h"
 #include "MsgManager.h"
 #include "Msg.h"
+#include "Obstacle.h"
 
 #endif

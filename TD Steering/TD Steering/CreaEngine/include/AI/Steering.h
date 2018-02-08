@@ -32,6 +32,7 @@ namespace crea
 		std::vector<typeWBehavior*> m_behaviors; // All the behaviors and their weight associated
 
 	public:
+		Obstacle* pTarget;
 
 		Steering();
 		Steering(float _mass, Vector2f _velocity, float _maxForce, float _maxSpeed);

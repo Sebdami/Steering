@@ -43,7 +43,7 @@ bool SteeringTools::onInit()
 	m_pSelectionShape->setOutlineThickness(1.f);
 
 	// Commands
-	Texture* pCommandsTexture = m_pGM->getTexture("debug/Commands.png");
+	Texture* pCommandsTexture = m_pGM->getTexture("debug/CommandsSteering.png");
 	m_pCommandsSprite = m_pGM->getSprite("Commands");
 	m_pCommandsSprite->setTexture(pCommandsTexture);
 
@@ -112,6 +112,12 @@ bool SteeringTools::onInit()
 	m_pForceShape->setColor(pBlue);
 	m_pForceShape->setSize(4.0f, 4.0f);
 
+	m_pPathPointShape = new CircleShape;
+	m_pPathPointShape->setOutlineColor(pBlue);
+	m_pPathPointShape->setColor(pTransparent);
+	m_pPathPointShape->setOutlineThickness(1.0f);
+	m_pPathPointShape->setRadius(5.0f);
+
 	// Cluster
 	m_pClusterShape = new RectangleShape;
 	m_pClusterShape->setOutlineColor(pBlue);
@@ -171,7 +177,109 @@ bool SteeringTools::onUpdate()
 		}
 		m_bSelection = false;
 	}
-
+	if (!m_bCommand)
+	{
+		if (m_pGM->isKeyPressed(Key::Num1))
+		{
+			m_eCommandType = Command_Seek;
+			m_bCommand = true;
+		}
+		else if (m_pGM->isKeyPressed(Key::Num2))
+		{
+			m_eCommandType = Command_Flee;
+			m_bCommand = true;
+		}
+		else if (m_pGM->isKeyPressed(Key::Num3))
+		{
+			m_eCommandType = Command_Pursuit;
+			m_bCommand = true;
+		}
+		else if (m_pGM->isKeyPressed(Key::Num4))
+		{
+			m_eCommandType = Command_Evasion;
+			m_bCommand = true;
+		}
+		else if (m_pGM->isKeyPressed(Key::Num5))
+		{
+			m_eCommandType = Command_Arrival;
+			m_bCommand = true;
+		}
+		else if (m_pGM->isKeyPressed(Key::Num6))
+		{
+			m_eCommandType = Command_ObstacleAvoidance;
+			m_bCommand = true;
+		}
+		else if (m_pGM->isKeyPressed(Key::Num7))
+		{
+			m_eCommandType = Command_Wander;
+			m_bCommand = true;
+		}
+		else if (m_pGM->isKeyPressed(Key::Num8))
+		{
+			m_eCommandType = Command_PathFollowing;
+			m_bCommand = true;
+		}
+		else if (m_pGM->isKeyPressed(Key::Num9))
+		{
+			m_eCommandType = Command_UCA;
+			m_bCommand = true;
+		}
+		else if (m_pGM->isKeyPressed(Key::Num0))
+		{
+			m_eCommandType = Command_Separation;
+			m_bCommand = true;
+		}
+		else if (m_pGM->isKeyPressed(Key::A))
+		{
+			m_eCommandType = Command_Cohesion;
+			m_bCommand = true;
+		}
+		else if (m_pGM->isKeyPressed(Key::Z))
+		{
+			m_eCommandType = Command_Alignement;
+			m_bCommand = true;
+		}
+		else if (m_pGM->isKeyPressed(Key::E))
+		{
+			m_eCommandType = Command_Flocking;
+			m_bCommand = true;
+		}
+		else if (m_pGM->isKeyPressed(Key::R))
+		{
+			m_eCommandType = Command_LeadFollowing;
+			m_bCommand = true;
+		}
+		else if (m_pGM->isKeyPressed(Key::T))
+		{
+			m_eCommandType = Command_FormationV;
+			m_bCommand = true;
+		}
+		else if (m_pGM->isKeyPressed(Key::Y))
+		{
+			m_eCommandType = Command_FormationLine;
+			m_bCommand = true;
+		}
+		else if (m_pGM->isKeyPressed(Key::U))
+		{
+			m_eCommandType = Command_FormationCircle;
+			m_bCommand = true;
+		}
+		else if (m_pGM->isKeyPressed(Key::I))
+		{
+			m_eCommandType = Command_Formation2Level;
+			m_bCommand = true;
+		}
+		else if (m_pGM->isKeyPressed(Key::O))
+		{
+			m_eCommandType = Command_FF;
+			m_bCommand = true;
+		}
+		else if (m_pGM->isKeyPressed(Key::P))
+		{
+			m_eCommandType = Command_FormationDynamique;
+			m_bCommand = true;
+		}
+	}
 	// Command
 	if (m_pGM->isMouseButtonPressed(Button::MouseRight))
 	{
@@ -265,7 +373,6 @@ bool SteeringTools::onUpdate()
 		}
 		m_bCommand = true;
 	}
-	else
 	{
 		if (m_bCommand) // just released
 		{
@@ -449,6 +556,28 @@ bool SteeringTools::onDraw()
 			m_pVelocityShape->draw();
 			m_pForceShape->setStartAndEnd(position.getX(), position.getY(), position.getX() + steering->getLastForce().getX()/2.0f, position.getY() + steering->getLastForce().getY()/2.0f);
 			m_pForceShape->draw();
+		}
+
+		FSMSteering* fsmSteering = pEntity->getComponent<FSMSteering>();
+
+		if (fsmSteering)
+		{
+			if (fsmSteering->GetState() == FSMSteering::States::STATE_PathFollowing)
+			{
+				vector<Obstacle*>* m_obstacles = fsmSteering->m_vPath;
+				for (std::vector<Obstacle*>::iterator it = m_obstacles->begin(); it != m_obstacles->end(); it++)
+				{
+					m_pPathPointShape->setRadius((*it)->m_radius);
+					m_pPathPointShape->setPosition((*it)->m_position.getX() - (*it)->m_radius, (*it)->m_position.getY() - (*it)->m_radius);
+					m_pPathPointShape->draw();
+				}
+				m_pPathPointShape->setRadius(10.0f);
+				m_pPathPointShape->setOutlineColor(m_pGM->getColor("Red"));
+				m_pPathPointShape->setPosition(steering->pTarget->m_position.getX() - 10, steering->pTarget->m_position.getY() - 10);
+				
+				m_pPathPointShape->draw();
+				m_pPathPointShape->setOutlineColor(m_pGM->getColor("Blue"));
+			}
 		}
 
 		m_pTextDiagnostics->setString(szDiagnostics);

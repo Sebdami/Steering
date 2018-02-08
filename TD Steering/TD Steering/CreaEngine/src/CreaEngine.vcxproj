@@ -60,6 +60,7 @@
     <ClInclude Include="..\include\Input\InputManager.h" />
     <ClInclude Include="..\include\json\json-forwards.h" />
     <ClInclude Include="..\include\json\json.h" />
+    <ClInclude Include="..\include\Obstacle.h" />
     <ClInclude Include="..\include\Physics\Collider.h" />
     <ClInclude Include="..\include\stdafx.h" />
     <ClInclude Include="..\include\targetver.h" />

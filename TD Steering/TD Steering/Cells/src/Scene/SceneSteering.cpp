@@ -34,9 +34,21 @@ bool SceneSteering::onInit()
 	m_pMapRenderer->setMap(m_pMap);
 	m_pEntity3->addComponent(m_pMapRenderer);
 
+	//Creat path
+	path = new vector<Obstacle*>();
+
+	path->push_back(new Obstacle(Vector2f(20.0f, 20.0f), 10.0f));
+	path->push_back(new Obstacle(Vector2f(20.0f, 280.0f), 10.0f));
+	path->push_back(new Obstacle(Vector2f(600.0f, 360.0f), 10.0f));
+	path->push_back(new Obstacle(Vector2f(700.0f, 450.0f), 10.0f));
+	path->push_back(new Obstacle(Vector2f(700.0f, 600.0f), 10.0f));
+	path->push_back(new Obstacle(Vector2f(400.0f, 580.0f), 10.0f));
+
 	m_pMouseEntity = m_pGM->getEntity("mouseEntity");
 	m_pMouseEntity->addComponent(new Steering(1, Vector2f(), 500, 200));
-	m_pGM->getEntity("peon1")->getComponent<FSMSteering>()->m_pTarget = m_pMouseEntity->getComponent<Steering>();
+	FSMSteering* fsm = m_pGM->getEntity("peon1")->getComponent<FSMSteering>();
+	fsm->m_pTarget = m_pMouseEntity->getComponent<Steering>();
+	fsm->m_vPath = path;
 	// Steering Tools
 	if (m_bUseSteeringTools)
 	{
@@ -48,16 +60,6 @@ bool SceneSteering::onInit()
 
 bool SceneSteering::onUpdate()
 {
-	if (m_pGM->isKeyPressed(Key::Num1))
-	{
-		m_pGM->setScene(new SceneMenu());
-		return true;
-	}
-	if (m_pGM->isKeyPressed(Key::Num2))
-	{
-		m_pGM->setScene(new SceneGame());
-		return true;
-	}
 	m_pMouseEntity->getComponent<Steering>()->setVelocity((InputManager::getSingleton()->getMousePosition() - m_pMouseEntity->getPosition()) * 100.0f);
 	m_pMouseEntity->setPosition(InputManager::getSingleton()->getMousePosition());
 
@@ -93,7 +95,7 @@ bool SceneSteering::onQuit()
 	m_pGM->clearAllEntities();
 
 	delete m_pCellsScriptFactory;
-
+	delete path;
 	return true;
 }
 

@@ -29,6 +29,8 @@ class SceneSteering : public Scene
 	// Scripts
 	CellsScriptFactory* m_pCellsScriptFactory;
 
+	vector<Obstacle*>* path;
+
 public:
 
 	SceneSteering();

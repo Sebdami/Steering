@@ -88,61 +88,61 @@ namespace crea
 		return m_steeringForce;
 	}
 
-	//Vector2f& PathFollowing::Update()
-	//{
-	//	Vector2f position = m_steering->getPosition() + m_steering->getVelocity() * m_fC;
-	//	double distMin = INFINITY;
-	//	std::vector<Obstacle*>::iterator j;
+	Vector2f& PathFollowing::Update()
+	{
+		Vector2f position = m_steering->getPosition() + m_steering->getVelocity() * m_fC;
+		double distMin = INFINITY;
+		std::vector<Obstacle*>::iterator j;
 
-	//	// if no target yet
-	//	if (m_steering->pTarget == NULL)
-	//	{
-	//		// Compute closest waypoints
-	//		for (std::vector<Obstacle*>::iterator i = m_obstacles->begin(); i != m_obstacles->end(); i++)
-	//		{
-	//			Vector2f obstaclePosition = (*i)->m_position;
-	//			double dist = (position - obstaclePosition).length();
+		// if no target yet
+		if (m_steering->pTarget == NULL)
+		{
+			// Compute closest waypoints
+			for (std::vector<Obstacle*>::iterator i = m_obstacles->begin(); i != m_obstacles->end(); i++)
+			{
+				Vector2f obstaclePosition = (*i)->m_position;
+				double dist = (position - obstaclePosition).length();
 
-	//			if (dist < distMin) {
-	//				distMin = dist;
-	//				// take next as target (if one exist)
-	//				j = i;
-	//				j++;
-	//				if (j != m_obstacles->end())
-	//					m_steering->pTarget = *j;
-	//				else
-	//					m_steering->pTarget = *i;
-	//			}
-	//		}
-	//	}
+				if (dist < distMin) {
+					distMin = dist;
+					// take next as target (if one exist)
+					j = i;
+					//j++;
+					if (j != m_obstacles->end())
+						m_steering->pTarget = *j;
+					else
+						m_steering->pTarget = *i;
+				}
+			}
+		}
 
-	//	if ((m_steering->pTarget->m_position - m_steering->getPosition()).length() < m_steering->pTarget->m_radius)
-	//	{
-	//		// Find next waypoint
-	//		for (std::vector<Obstacle*>::iterator i = m_obstacles->begin(); i != m_obstacles->end(); i++)
-	//		{
-	//			if (*i == m_steering->pTarget)
-	//			{
-	//				// take next as target (if one exist)
-	//				j = i;
-	//				j++;
-	//				if (j != m_obstacles->end())
-	//					m_steering->pTarget = *j;
-	//				else
-	//					m_steering->pTarget = *i;
-	//				break;
-	//			}
-	//		}
-	//	}
+		if ((m_steering->pTarget->m_position - m_steering->getPosition()).length() < m_steering->pTarget->m_radius)
+		{
+			// Find next waypoint
+			for (std::vector<Obstacle*>::iterator i = m_obstacles->begin(); i != m_obstacles->end(); i++)
+			{
+				if (*i == m_steering->pTarget)
+				{
+					// take next as target (if one exist)
+					j = i;
+					j++;
+					if (j != m_obstacles->end())
+						m_steering->pTarget = *j;
+					else
+						m_steering->pTarget = *i;
+					break;
+				}
+			}
+		}
 
-	//	// Seek on target
-	//	m_desiredVelocity = m_steering->pTarget->m_position - m_steering->getPosition();
-	//	m_desiredVelocity.normalize();
-	//	m_desiredVelocity *= m_steering->getMaxSpeed();
-	//	m_steeringForce = m_desiredVelocity - m_steering->getVelocity();
+		// Seek on target
+		m_desiredVelocity = m_steering->pTarget->m_position - m_steering->getPosition();
+		m_desiredVelocity.normalize();
+		m_desiredVelocity *= m_steering->getMaxSpeed();
+		m_steeringForce = m_desiredVelocity - m_steering->getVelocity();
 
-	//	return m_steeringForce;
-	//}
+		return m_steeringForce;
+	}
 
 	//Vector2f& UnalignedCollisionAvoidance::Update()
 	//{

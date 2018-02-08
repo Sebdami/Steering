@@ -88,6 +88,8 @@ class SteeringTools
 	ArrowShape* m_pVelocityShape;
 	ArrowShape* m_pForceShape;
 
+	CircleShape* m_pPathPointShape;
+
 	// Cluster
 	RectangleShape* m_pClusterShape;
 	RectangleShape* m_pEntranceShape;
