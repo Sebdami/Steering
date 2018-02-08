@@ -34,7 +34,7 @@ bool SceneSteering::onInit()
 	m_pMapRenderer->setMap(m_pMap);
 	m_pEntity3->addComponent(m_pMapRenderer);
 
-	//Creat path
+	//Create path
 	path = new vector<Obstacle*>();
 
 	path->push_back(new Obstacle(Vector2f(20.0f, 20.0f), 10.0f));
@@ -49,13 +49,55 @@ bool SceneSteering::onInit()
 
 	Entity* balista = m_pGM->getEntity("balista1");
 
+	// Define targets
 	targets = new vector<Steering*>();
 	targets->push_back(balista->getComponent<Steering>());
+
+
+	//Find obstacles
+	obstacles = new vector<Obstacle*>();
+	MapStringCollider* pStaticColliders = PhysicsManager::getSingleton()->getStaticColliders();
+	MapStringCollider* pDynamicColliders = PhysicsManager::getSingleton()->getDynamicColliders();
+	for (auto i = pStaticColliders->begin(); i != pStaticColliders->end(); i++)
+	{
+		float radius;
+		Vector2f position;
+
+		switch ((*i).second->getColliderType())
+		{
+		case EnumColliderType::Collider_Box:
+			radius = ((BoxCollider*)(*i).second)->getSize().getX() / 2.0f;
+			position = ((BoxCollider*)(*i).second)->getOrigin() - Vector2f(radius, radius);
+			break;
+		case EnumColliderType::Collider_Circle:
+			radius = ((CircleCollider*)(*i).second)->getRadius();
+			position = ((CircleCollider*)(*i).second)->getCenter();
+			break;
+		}
+		obstacles->push_back(new Obstacle(position, radius));
+	}
+
+	/*for (auto i = pDynamicColliders->begin(); i != pDynamicColliders->end(); i++)
+	{
+		float radius;
+
+		switch ((*i).second->getColliderType())
+		{
+		case EnumColliderType::Collider_Box:
+			radius = ((BoxCollider*)(*i).second)->getSize().getX() / 2.0f;
+			break;
+		case EnumColliderType::Collider_Circle:
+			radius = ((CircleCollider*)(*i).second)->getRadius();
+			break;
+		}
+		obstacles->push_back(new Obstacle((*i).second->getEntity()->getPosition(), radius));
+	}*/
 
 	FSMSteering* fsm = m_pGM->getEntity("peon1")->getComponent<FSMSteering>();
 	fsm->m_pTarget = m_pMouseEntity->getComponent<Steering>();
 	fsm->m_vTargets = targets;
 	fsm->m_vPath = path;
+	fsm->m_vObstacles = obstacles;
 	// Steering Tools
 	if (m_bUseSteeringTools)
 	{
@@ -104,6 +146,7 @@ bool SceneSteering::onQuit()
 	delete m_pCellsScriptFactory;
 	delete path;
 	delete targets;
+	delete obstacles;
 	return true;
 }
 

@@ -164,50 +164,51 @@ namespace crea
 		return m_steeringForce;
 	}
 
-	//Vector2f& ObstacleAvoidance::Update()
-	//{
-	//	Vector2f position = m_steering->getPosition();
-	//	Vector2f direction = m_steering->getVelocity();
-	//	direction.normalize();
+	Vector2f& ObstacleAvoidance::Update()
+	{
+		Vector2f position = m_steering->getPosition();
+		Vector2f direction = m_steering->getVelocity();
+		direction.normalize();
 
-	//	double distance = INFINITY;
-	//	double fleeDirection;
+		double distance = INFINITY;
+		double fleeDirection;
 
-	//	for (std::vector<Obstacle*>::iterator i = m_obstacles->begin(); i != m_obstacles->end(); i++)
-	//	{
-	//		Vector2f positionToObstacle = (*i)->m_position - position;
+		for (std::vector<Obstacle*>::iterator i = m_obstacles->begin(); i != m_obstacles->end(); i++)
+		{
+			Vector2f positionToObstacle = (*i)->m_position - position;
 
-	//		// Projection du vecteur positionToObstacle sur le vecteur direction normalisé (r) et son vecteur orthogonal (s)
-	//		double r = positionToObstacle.x * direction.x + positionToObstacle.y * direction.y;
-	//		double s = positionToObstacle.x * direction.y - positionToObstacle.y * direction.x;
+			// Projection du vecteur positionToObstacle sur le vecteur direction normalisé (r) et son vecteur orthogonal (s)
+			double r = positionToObstacle.getX() * direction.getX() + positionToObstacle.getY() * direction.getY();
+			double s = positionToObstacle.getX() * direction.getY() - positionToObstacle.getY() * direction.getX();
 
-	//		if (r > 0
-	//			&& r - (*i)->m_radius < m_farView * m_steering->getVelocity().length() / m_steering->getMaxSpeed()
-	//			&& r + (*i)->m_radius < distance
-	//			&& s < (m_radius + (*i)->m_radius)
-	//			&& s > -(m_radius + (*i)->m_radius)) {
-	//			distance = r - (*i)->m_radius;
-	//			fleeDirection = s;
-	//		}
-	//	}
-	//	if (distance == INFINITY)
-	//	{
-	//		m_steeringForce = ORIGIN2;
-	//	}
-	//	else
-	//	{
-	//		direction *= m_steering->getMaxForce();
-	//		if (fleeDirection > 0)
-	//		{
-	//			m_steeringForce = Vector2f(-direction.y, direction.x);
-	//		}
-	//		else
-	//		{
-	//			m_steeringForce = Vector2f(direction.y, -direction.x);
-	//		}
-	//	}
-	//	return m_steeringForce;
-	//}
+			if (r > 0
+				&& r - (*i)->m_radius < m_farView * m_steering->getVelocity().length() / m_steering->getMaxSpeed()
+				&& r + (*i)->m_radius < distance
+				&& s < (m_radius + (*i)->m_radius)
+				&& s > -(m_radius + (*i)->m_radius)) {
+				distance = r - (*i)->m_radius;
+				fleeDirection = s;
+			}
+		}
+		if (distance == INFINITY)
+		{
+			m_steeringForce = Vector2f(0.0f, 0.0f);
+		}
+		else
+		{
+			direction *= m_steering->getMaxForce();
+			if (fleeDirection > 0)
+			{
+				m_steeringForce = Vector2f(-direction.getY(), direction.getX());
+			}
+			else
+			{
+				m_steeringForce = Vector2f(direction.getY(), -direction.getX());
+			}
+		}
+		return m_steeringForce;
+	}
+
 	//Vector2f& Separation::Update()
 	//{
 	//	Vector2f direction;

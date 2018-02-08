@@ -30,7 +30,7 @@ public:
 	Steering*			m_pTarget;
 	vector<Steering*>*	m_vTargets;
 	vector<Obstacle*>*	m_vPath;
-
+	vector<Obstacle*>*	m_vObstacles;
 
 	//Add new states here
 	enum States {

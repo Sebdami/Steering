@@ -105,16 +105,16 @@ namespace crea
 		Vector2f& Update();
 	};
 
-	//class CREAENGINE_API ObstacleAvoidance : public Behaviour
-	//{
-	//	double m_radius;
-	//	double m_farView;
-	//	std::vector<Obstacle*>* m_obstacles;
-	//public:
-	//	ObstacleAvoidance(Steering* _steering, double radius, double farView, std::vector<Obstacle*>* obstacles)
-	//		: Behaviour(_steering), m_radius(radius), m_farView(farView), m_obstacles(obstacles) { };
-	//	Vector2f& Update();
-	//};
+	class CREAENGINE_API ObstacleAvoidance : public Behaviour
+	{
+		double m_radius;
+		double m_farView;
+		std::vector<Obstacle*>* m_obstacles;
+	public:
+		ObstacleAvoidance(Steering* _steering, double radius, double farView, std::vector<Obstacle*>* obstacles)
+			: Behaviour(_steering), m_radius(radius), m_farView(farView), m_obstacles(obstacles) { };
+		Vector2f& Update();
+	};
 
 	//class CREAENGINE_API Separation : public Behaviour
 	//{

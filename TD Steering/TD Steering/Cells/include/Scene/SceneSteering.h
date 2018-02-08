@@ -31,6 +31,7 @@ class SceneSteering : public Scene
 
 	vector<Obstacle*>* path;
 	vector<Steering*>* targets;
+	vector<Obstacle*>* obstacles;
 public:
 
 	SceneSteering();
