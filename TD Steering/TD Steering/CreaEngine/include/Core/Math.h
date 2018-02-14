@@ -184,13 +184,14 @@ namespace crea
 		static float max(float a, float b) { return a > b ? a : b; }
 
 
-		/*static int global_counter;
+		/* Doesn't work for some reason that I don't have time to find
+		static int global_counteri;
 		static void updateCount(int _countMax)
 		{
-			global_counter++;
-			if (global_counter == _countMax)
+			global_counteri++;
+			if (global_counteri == _countMax)
 			{
-				global_counter = 0;
+				global_counteri = 0;
 			}
 		}*/
 	};

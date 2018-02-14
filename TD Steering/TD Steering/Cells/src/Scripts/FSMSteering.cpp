@@ -212,7 +212,8 @@ bool FSMSteering::States(StateMachineEvent _event, Msg* _msg, int _state)
 			m_pCharacterController->setCondition(kACond_Default);
 		m_pCharacterController->setAction(kAct_Walk);
 		m_pSteering->ClearBehaviors();
-		m_pSteering->AddBehavior(new Flee(m_pSteering, m_pTarget), 1.0f);
+		m_pSteering->AddBehavior(new Separation(m_pSteering, 100.0f, m_vTargets), 10.0f);
+		m_pSteering->AddBehavior(new Seek(m_pSteering, m_pTarget), 1.0f);
 		OnUpdate
 			m_pCharacterController->move(m_pSteering->getVelocity());
 		///////////////////////////////////////////////////////////////
@@ -221,7 +222,8 @@ bool FSMSteering::States(StateMachineEvent _event, Msg* _msg, int _state)
 			m_pCharacterController->setCondition(kACond_Default);
 		m_pCharacterController->setAction(kAct_Walk);
 		m_pSteering->ClearBehaviors();
-		m_pSteering->AddBehavior(new Flee(m_pSteering, m_pTarget), 1.0f);
+		m_pSteering->AddBehavior(new Cohesion(m_pSteering, 100.0f, m_vTargets), 10.0f);
+		m_pSteering->AddBehavior(new Seek(m_pSteering, m_pTarget), 1.0f);
 		OnUpdate
 			m_pCharacterController->move(m_pSteering->getVelocity());
 		///////////////////////////////////////////////////////////////
@@ -230,7 +232,7 @@ bool FSMSteering::States(StateMachineEvent _event, Msg* _msg, int _state)
 			m_pCharacterController->setCondition(kACond_Default);
 		m_pCharacterController->setAction(kAct_Walk);
 		m_pSteering->ClearBehaviors();
-		m_pSteering->AddBehavior(new Flee(m_pSteering, m_pTarget), 1.0f);
+		m_pSteering->AddBehavior(new Alignment(m_pSteering, 50.0f, m_vTargets), 1.0f);
 		OnUpdate
 			m_pCharacterController->move(m_pSteering->getVelocity());
 		///////////////////////////////////////////////////////////////
@@ -239,7 +241,8 @@ bool FSMSteering::States(StateMachineEvent _event, Msg* _msg, int _state)
 			m_pCharacterController->setCondition(kACond_Default);
 		m_pCharacterController->setAction(kAct_Walk);
 		m_pSteering->ClearBehaviors();
-		m_pSteering->AddBehavior(new Flee(m_pSteering, m_pTarget), 1.0f);
+		m_pSteering->AddBehavior(new Swarming(m_pSteering, m_pTarget, 30.0f), 1.0f);
+
 		OnUpdate
 			m_pCharacterController->move(m_pSteering->getVelocity());
 		///////////////////////////////////////////////////////////////

@@ -209,84 +209,84 @@ namespace crea
 		return m_steeringForce;
 	}
 
-	//Vector2f& Separation::Update()
-	//{
-	//	Vector2f direction;
-	//	double distance;
-	//	m_steeringForce = ORIGIN2;
-	//	for (std::vector<Steering*>::iterator i = m_entities->begin(); i != m_entities->end(); i++)
-	//	{
-	//		if ((*i) != m_steering)
-	//		{
-	//			direction = m_steering->getPosition() - (*i)->getPosition();
-	//			distance = direction.length();
-	//			if (distance <= m_distanceMax && distance != 0.0f)
-	//			{
-	//				direction.normalize();
-	//				m_steeringForce += direction * 1 / distance;
-	//			}
-	//		}
-	//	}
-	//	m_steeringForce.normalize();
-	//	m_steeringForce *= m_steering->getMaxForce();
-	//	return m_steeringForce;
-	//}
+	Vector2f& Separation::Update()
+	{
+		Vector2f direction;
+		double distance;
+		m_steeringForce = Vector2f(0.0f, 0.0f);
+		for (std::vector<Steering*>::iterator i = m_entities->begin(); i != m_entities->end(); i++)
+		{
+			if ((*i) != m_steering)
+			{
+				direction = m_steering->getPosition() - (*i)->getPosition();
+				distance = direction.length();
+				if (distance <= m_distanceMax && distance != 0.0f)
+				{
+					direction.normalize();
+					m_steeringForce += direction * 1 / distance;
+				}
+			}
+		}
+		m_steeringForce.normalize();
+		m_steeringForce *= m_steering->getMaxForce();
+		return m_steeringForce;
+	}
 
-	//Vector2f& Cohesion::Update()
-	//{
-	//	Vector2f direction, center = ORIGIN2;
-	//	double distance;
-	//	int nbNeighbors = 0;
-	//	for (std::vector<Steering*>::iterator i = m_entities->begin(); i != m_entities->end(); i++)
-	//	{
-	//		if ((*i) != m_steering)
-	//		{
-	//			direction = m_steering->getPosition() - (*i)->getPosition();
-	//			distance = direction.length();
-	//			if (distance <= m_distanceMax)
-	//			{
-	//				center += (*i)->getPosition();
-	//				nbNeighbors++;
-	//			}
-	//		}
-	//	}
-	//	if (nbNeighbors)
-	//	{
-	//		center /= nbNeighbors;
-	//		m_steeringForce = center - m_steering->getPosition();
-	//	}
+	Vector2f& Cohesion::Update()
+	{
+		Vector2f direction, center = Vector2f(0.0f, 0.0f);
+		double distance;
+		int nbNeighbors = 0;
+		for (std::vector<Steering*>::iterator i = m_entities->begin(); i != m_entities->end(); i++)
+		{
+			if ((*i) != m_steering)
+			{
+				direction = m_steering->getPosition() - (*i)->getPosition();
+				distance = direction.length();
+				if (distance <= m_distanceMax)
+				{
+					center += (*i)->getPosition();
+					nbNeighbors++;
+				}
+			}
+		}
+		if (nbNeighbors)
+		{
+			center /= nbNeighbors;
+			m_steeringForce = center - m_steering->getPosition();
+		}
 
-	//	return m_steeringForce;
-	//}
+		return m_steeringForce;
+	}
 
 
-	//Vector2f& Alignment::Update()
-	//{
-	//	Vector2f direction;
-	//	double distance;
-	//	int nbNeighbors = 0;
-	//	m_desiredVelocity = ORIGIN2;
-	//	for (std::vector<Steering*>::iterator i = m_entities->begin(); i != m_entities->end(); i++)
-	//	{
-	//		if ((*i) != m_steering)
-	//		{
-	//			direction = m_steering->getPosition() - (*i)->getPosition();
-	//			distance = direction.length();
-	//			if (distance <= m_distanceMax)
-	//			{
-	//				m_desiredVelocity += (*i)->getVelocity();
-	//				nbNeighbors++;
-	//			}
-	//		}
-	//	}
-	//	if (nbNeighbors)
-	//	{
-	//		m_desiredVelocity /= nbNeighbors;
-	//		m_steeringForce = m_desiredVelocity - m_steering->getVelocity();
-	//	}
+	Vector2f& Alignment::Update()
+	{
+		Vector2f direction;
+		double distance;
+		int nbNeighbors = 0;
+		m_desiredVelocity = Vector2f(0.0f, 0.0f);
+		for (std::vector<Steering*>::iterator i = m_entities->begin(); i != m_entities->end(); i++)
+		{
+			if ((*i) != m_steering)
+			{
+				direction = m_steering->getPosition() - (*i)->getPosition();
+				distance = direction.length();
+				if (distance <= m_distanceMax)
+				{
+					m_desiredVelocity += (*i)->getVelocity();
+					nbNeighbors++;
+				}
+			}
+		}
+		if (nbNeighbors)
+		{
+			m_desiredVelocity /= nbNeighbors;
+			m_steeringForce = m_desiredVelocity - m_steering->getVelocity();
+		}
 
-	//	return m_steeringForce;
-	//}
+		return m_steeringForce;
+	}
 
 	//Vector2f& LeadFollowing::Update()
 	//{
@@ -325,53 +325,53 @@ namespace crea
 	//	return m_steeringForce;
 	//}
 
-	//Vector2f& Swarming::Update()
-	//{
-	//	Vector2f velocity = m_steering->getVelocity();
-	//	velocity.normalize();
-	//	Vector2f velocityTangent(-velocity.y, velocity.x);
-	//	Vector2f vsteeringToTarget = m_target->getPosition() - m_steering->getPosition();
-	//	if (vsteeringToTarget.LengthSquare() > m_fSwarmDistanceSquare)
-	//	{
-	//		// Outer zone
+	Vector2f& Swarming::Update()
+	{
+		Vector2f velocity = m_steering->getVelocity();
+		velocity.normalize();
+		Vector2f velocityTangent(-velocity.getY(), velocity.getX());
+		Vector2f vsteeringToTarget = m_target->getPosition() - m_steering->getPosition();
+		if (vsteeringToTarget.lengthSq() > m_fSwarmDistanceSquare)
+		{
+			// Outer zone
 
-	//		// Increase speed to maximum
-	//		m_steeringForce = velocity * m_steering->getMaxForce();
+			// Increase speed to maximum
+			m_steeringForce = velocity * m_steering->getMaxForce();
 
-	//		float fAngle = vsteeringToTarget.angle(velocity);
-	//		if (fAngle < 0.1f)
-	//		{
-	//			// Vary the steering as a function of the index of the Steering
-	//			double dRandTurn = (MathTools::global_counter - m_steering->getIndex()) * 0.01f;
-	//			m_steeringForce += velocityTangent * dRandTurn;
-	//		}
-	//		else
-	//		{
-	//			if (vsteeringToTarget.isLeft(velocity))
-	//			{
-	//				m_steeringForce = velocityTangent * -100;
-	//			}
-	//			else
-	//			{
-	//				m_steeringForce = velocityTangent * 100;
-	//			}
-	//		}
-	//	}
-	//	else
-	//	{
-	//		// Inner zone
+			float fAngle = vsteeringToTarget.angle(velocity);
+			if (fAngle < 0.1f)
+			{
+				// Vary the steering as a function of the index of the Steering
+				double dRandTurn = (5 - m_steering->getIndex()) * 0.01f;
+				m_steeringForce += velocityTangent * dRandTurn;
+			}
+			else
+			{
+				if (vsteeringToTarget.isLeft(velocity))
+				{
+					m_steeringForce = velocityTangent * -100;
+				}
+				else
+				{
+					m_steeringForce = velocityTangent * 100;
+				}
+			}
+		}
+		else
+		{
+			// Inner zone
 
-	//		if (vsteeringToTarget.isLeft(velocity))
-	//		{
-	//			m_steeringForce = velocityTangent * -100;
-	//		}
-	//		else
-	//		{
-	//			m_steeringForce = velocityTangent * 100;
-	//		}
-	//	}
-	//	return m_steeringForce;
-	//}
+			if (vsteeringToTarget.isLeft(velocity))
+			{
+				m_steeringForce = velocityTangent * -100;
+			}
+			else
+			{
+				m_steeringForce = velocityTangent * 100;
+			}
+		}
+		return m_steeringForce;
+	}
 
 	//Vector2f& FormationV::Update()
 	//{

@@ -3,7 +3,7 @@
 #include "Scene\SceneSteering.h"
 #include "Scene\SceneMenu.h"
 #include "Scene\SceneGame.h"
-
+#include <string>
 
 SceneSteering::SceneSteering()
 {
@@ -91,6 +91,26 @@ bool SceneSteering::onInit()
 			break;
 		}
 		obstacles->push_back(new Obstacle((*i).second->getEntity()->getPosition(), radius));
+	}*/
+
+	list<Component*> comps;
+	Entity* peon = m_pGM->getEntity("peon1");
+	peon->getComponents<Component>(comps);
+
+	/*for (int i = 0; i < 5; i++)
+	{
+		Entity* newEntity = m_pGM->getEntity("peon" + i + 2);
+		SpriteRenderer* sr = new SpriteRenderer();
+		Sprite * sprite = m_pGM->getSprite("peon" + i + 2);
+		string p = "peon" + std::to_string(i + 2) + ".png";
+		sprite->setTexture(m_pGM->getTexture(p));
+		sr->setSprite(sprite);
+		newEntity->addComponent(sr);
+
+		
+
+		newEntity->setPosition(Vector2f(150 + 50 * i, 150));
+		m_pGM->addEntity(newEntity);
 	}*/
 
 	FSMSteering* fsm = m_pGM->getEntity("peon1")->getComponent<FSMSteering>();

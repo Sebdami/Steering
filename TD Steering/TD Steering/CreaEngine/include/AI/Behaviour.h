@@ -116,35 +116,35 @@ namespace crea
 		Vector2f& Update();
 	};
 
-	//class CREAENGINE_API Separation : public Behaviour
-	//{
-	//	double m_distanceMax;
-	//	std::vector<Steering*>* m_entities;
-	//public:
-	//	Separation(Steering* _steering, double distanceMax, std::vector<Steering*>* entities)
-	//		: Behaviour(_steering), m_distanceMax(distanceMax), m_entities(entities) { };
-	//	Vector2f& Update();
-	//};
+	class CREAENGINE_API Separation : public Behaviour
+	{
+		double m_distanceMax;
+		std::vector<Steering*>* m_entities;
+	public:
+		Separation(Steering* _steering, double distanceMax, std::vector<Steering*>* entities)
+			: Behaviour(_steering), m_distanceMax(distanceMax), m_entities(entities) { };
+		Vector2f& Update();
+	};
 
-	//class CREAENGINE_API Cohesion : public Behaviour
-	//{
-	//	double m_distanceMax;
-	//	std::vector<Steering*>* m_entities;
-	//public:
-	//	Cohesion(Steering* _steering, double distanceMax, std::vector<Steering*>* entities)
-	//		: Behaviour(_steering), m_distanceMax(distanceMax), m_entities(entities) { };
-	//	Vector2f& Update();
-	//};
+	class CREAENGINE_API Cohesion : public Behaviour
+	{
+		double m_distanceMax;
+		std::vector<Steering*>* m_entities;
+	public:
+		Cohesion(Steering* _steering, double distanceMax, std::vector<Steering*>* entities)
+			: Behaviour(_steering), m_distanceMax(distanceMax), m_entities(entities) { };
+		Vector2f& Update();
+	};
 
-	//class CREAENGINE_API Alignment : public Behaviour
-	//{
-	//	double m_distanceMax;
-	//	std::vector<Steering*>* m_entities;
-	//public:
-	//	Alignment(Steering* _steering, double distanceMax, std::vector<Steering*>* entities)
-	//		: Behaviour(_steering), m_distanceMax(distanceMax), m_entities(entities) { };
-	//	Vector2f& Update();
-	//};
+	class CREAENGINE_API Alignment : public Behaviour
+	{
+		double m_distanceMax;
+		std::vector<Steering*>* m_entities;
+	public:
+		Alignment(Steering* _steering, double distanceMax, std::vector<Steering*>* entities)
+			: Behaviour(_steering), m_distanceMax(distanceMax), m_entities(entities) { };
+		Vector2f& Update();
+	};
 
 	//class CREAENGINE_API LeadFollowing : public Behaviour
 	//{
@@ -159,14 +159,14 @@ namespace crea
 	//	Vector2f& Update();
 	//};
 
-	//class CREAENGINE_API Swarming : public Behaviour
-	//{
-	//	Steering* m_target;
-	//	float m_fSwarmDistanceSquare;
-	//public:
-	//	Swarming(Steering* _steering, Steering* _target, float _fSwarmDistance) : Behaviour(_steering), m_target(_target), m_fSwarmDistanceSquare(_fSwarmDistance*_fSwarmDistance) { };
-	//	Vector2f& Update();
-	//};
+	class CREAENGINE_API Swarming : public Behaviour
+	{
+		Steering* m_target;
+		float m_fSwarmDistanceSquare;
+	public:
+		Swarming(Steering* _steering, Steering* _target, float _fSwarmDistance) : Behaviour(_steering), m_target(_target), m_fSwarmDistanceSquare(_fSwarmDistance*_fSwarmDistance) { };
+		Vector2f& Update();
+	};
 
 	//class CREAENGINE_API FormationV : public Behaviour
 	//{
