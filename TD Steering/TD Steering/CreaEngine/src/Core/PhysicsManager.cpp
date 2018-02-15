@@ -80,7 +80,7 @@ namespace crea
 		{
 			if (_bCloned)
 			{
-				//return new Collider(it->second); // CB is it useful to clone?
+				//return new Collider(it->second); // CB is it useful to clone? 
 			}
 			else
 			{

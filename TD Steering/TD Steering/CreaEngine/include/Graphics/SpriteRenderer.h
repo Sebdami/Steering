@@ -26,6 +26,7 @@ namespace crea
 		SpriteRenderer();
 		virtual ~SpriteRenderer();
 
+		inline Sprite* getSprite() { return m_pSprite; }
 		inline void setSprite(Sprite* _pSprite) { m_pSprite = _pSprite; }
 		void setTextureRect(IntRect* _pTextureRect) { m_pTextureRect = new IntRect(*_pTextureRect); }
 

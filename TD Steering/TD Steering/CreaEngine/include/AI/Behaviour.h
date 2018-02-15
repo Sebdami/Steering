@@ -146,18 +146,18 @@ namespace crea
 		Vector2f& Update();
 	};
 
-	//class CREAENGINE_API LeadFollowing : public Behaviour
-	//{
-	//	Steering* m_leader;
-	//	double m_distance;
-	//	double m_angle;
-	//	double m_distanceFlee;
-	//	double m_distanceArrive;
-	//public:
-	//	LeadFollowing(Steering* _steering, Steering* _leader, double _distance, double _angle, double _distanceFlee, double _distanceArrive)
-	//		: Behaviour(_steering), m_leader(_leader), m_distance(_distance), m_angle(_angle), m_distanceFlee(_distanceFlee), m_distanceArrive(_distanceArrive) { };
-	//	Vector2f& Update();
-	//};
+	class CREAENGINE_API LeadFollowing : public Behaviour
+	{
+		Steering* m_leader;
+		double m_distance;
+		double m_angle;
+		double m_distanceFlee;
+		double m_distanceArrive;
+	public:
+		LeadFollowing(Steering* _steering, Steering* _leader, double _distance, double _angle, double _distanceFlee, double _distanceArrive)
+			: Behaviour(_steering), m_leader(_leader), m_distance(_distance), m_angle(_angle), m_distanceFlee(_distanceFlee), m_distanceArrive(_distanceArrive) { };
+		Vector2f& Update();
+	};
 
 	class CREAENGINE_API Swarming : public Behaviour
 	{
@@ -168,71 +168,87 @@ namespace crea
 		Vector2f& Update();
 	};
 
-	//class CREAENGINE_API FormationV : public Behaviour
-	//{
-	//	Steering* m_leader;
-	//	bool m_bUseLeaderOrientation;
-	//	unsigned int m_id, m_maxId, m_nbInLine;
-	//	double m_distanceMax, m_slowingDistance;
-	//	double m_angle;
+	class CREAENGINE_API FormationV : public Behaviour
+	{
+		Steering* m_leader;
+		bool m_bUseLeaderOrientation;
+		unsigned int m_id, m_maxId, m_nbInLine;
+		double m_distanceMax, m_slowingDistance;
+		double m_angle;
 
-	//public:
-	//	FormationV(Steering* _steering, Steering* _leader, bool _bUseLeaderOrientation,
-	//		unsigned int _nbInLine, unsigned int _id, unsigned int _maxId,
-	//		double _distanceMax, double _slowingDistance,
-	//		double _angle)
-	//		: Behaviour(_steering), m_leader(_leader), m_bUseLeaderOrientation(_bUseLeaderOrientation),
-	//		m_nbInLine(_nbInLine), m_id(_id), m_maxId(_maxId),
-	//		m_distanceMax(_distanceMax), m_slowingDistance(_slowingDistance),
-	//		m_angle(_angle)
-	//	{};
-	//	Vector2f& Update();
-	//};
+	public:
+		FormationV(Steering* _steering, Steering* _leader, bool _bUseLeaderOrientation,
+			unsigned int _nbInLine, unsigned int _id, unsigned int _maxId,
+			double _distanceMax, double _slowingDistance,
+			double _angle)
+			: Behaviour(_steering), m_leader(_leader), m_bUseLeaderOrientation(_bUseLeaderOrientation),
+			m_nbInLine(_nbInLine), m_id(_id), m_maxId(_maxId),
+			m_distanceMax(_distanceMax), m_slowingDistance(_slowingDistance),
+			m_angle(_angle)
+		{};
+		Vector2f& Update();
+	};
 
-	//class CREAENGINE_API FormationCircle : public Behaviour
-	//{
-	//	Steering* m_leader;
-	//	bool m_bUseLeaderOrientation;
-	//	unsigned int m_id, m_maxId, m_nbInCircle;
-	//	double m_distanceMax, m_slowingDistance;
-	//	double m_minAngle, m_maxAngle, m_minRadius;
+	class CREAENGINE_API FormationLine : public Behaviour
+	{
+		Steering* m_leader;
+		unsigned int m_id, m_maxId, m_nbInLine;
+		double m_distanceMax, m_slowingDistance;
+		double m_interDistance;
+	public:
+		FormationLine(Steering* _steering, Steering* _leader, unsigned int _nbInLine, unsigned int _id, unsigned int _maxId,
+			double _distanceMax, double _slowingDistance, double _interDistance):Behaviour(_steering), m_leader(_leader),
+			m_nbInLine(_nbInLine), m_id(_id), m_maxId(_maxId),
+			m_distanceMax(_distanceMax), m_slowingDistance(_slowingDistance),
+			m_interDistance(_interDistance)
+		{};
+		Vector2f& Update();
+	};
 
-	//public:
-	//	FormationCircle(Steering* _steering, Steering* _leader, bool _bUseLeaderOrientation,
-	//		unsigned int _nbInCircle, unsigned int _id, unsigned int _maxId,
-	//		double _distanceMax, double _slowingDistance,
-	//		double _minAngle, double _maxAngle, double _minRadius)
-	//		: Behaviour(_steering), m_leader(_leader), m_bUseLeaderOrientation(_bUseLeaderOrientation),
-	//		m_nbInCircle(_nbInCircle), m_id(_id), m_maxId(_maxId),
-	//		m_distanceMax(_distanceMax), m_slowingDistance(_slowingDistance),
-	//		m_minAngle(_minAngle), m_maxAngle(_maxAngle), m_minRadius(_minRadius)
-	//	{};
-	//	Vector2f& Update();
-	//};
+	class CREAENGINE_API FormationCircle : public Behaviour
+	{
+		Steering* m_leader;
+		bool m_bUseLeaderOrientation;
+		unsigned int m_id, m_maxId, m_nbInCircle;
+		double m_distanceMax, m_slowingDistance;
+		double m_minAngle, m_maxAngle, m_minRadius;
 
-	//class CREAENGINE_API FormationDynamic : public Behaviour
-	//{
-	//	Steering* m_leader;
-	//	bool m_bUseLeaderOrientation;
-	//	unsigned int m_id, m_maxId, m_nbInCircle;
-	//	double m_distanceMax, m_slowingDistance;
-	//	double m_minAngle, m_maxAngle, m_minRadius;
+	public:
+		FormationCircle(Steering* _steering, Steering* _leader, bool _bUseLeaderOrientation,
+			unsigned int _nbInCircle, unsigned int _id, unsigned int _maxId,
+			double _distanceMax, double _slowingDistance,
+			double _minAngle, double _maxAngle, double _minRadius)
+			: Behaviour(_steering), m_leader(_leader), m_bUseLeaderOrientation(_bUseLeaderOrientation),
+			m_nbInCircle(_nbInCircle), m_id(_id), m_maxId(_maxId),
+			m_distanceMax(_distanceMax), m_slowingDistance(_slowingDistance),
+			m_minAngle(_minAngle), m_maxAngle(_maxAngle), m_minRadius(_minRadius)
+		{};
+		Vector2f& Update();
+	};
 
-	//	double m_angleStart;
+	class CREAENGINE_API FormationDynamic : public Behaviour
+	{
+		Steering* m_leader;
+		bool m_bUseLeaderOrientation;
+		unsigned int m_id, m_maxId, m_nbInCircle;
+		double m_distanceMax, m_slowingDistance;
+		double m_minAngle, m_maxAngle, m_minRadius;
 
-	//public:
-	//	FormationDynamic(Steering* _steering, Steering* _leader, bool _bUseLeaderOrientation,
-	//		unsigned int _nbInCircle, unsigned int _id, unsigned int _maxId,
-	//		double _distanceMax, double _slowingDistance,
-	//		double _minAngle, double _maxAngle, double _minRadius)
-	//		: Behaviour(_steering), m_leader(_leader), m_bUseLeaderOrientation(_bUseLeaderOrientation),
-	//		m_nbInCircle(_nbInCircle), m_id(_id), m_maxId(_maxId),
-	//		m_distanceMax(_distanceMax), m_slowingDistance(_slowingDistance),
-	//		m_minAngle(_minAngle), m_maxAngle(_maxAngle), m_minRadius(_minRadius)
-	//	{
-	//		m_angleStart = 0.0f;
-	//	};
-	//	Vector2f& Update();
-	//};
+		double m_angleStart;
+
+	public:
+		FormationDynamic(Steering* _steering, Steering* _leader, bool _bUseLeaderOrientation,
+			unsigned int _nbInCircle, unsigned int _id, unsigned int _maxId,
+			double _distanceMax, double _slowingDistance,
+			double _minAngle, double _maxAngle, double _minRadius)
+			: Behaviour(_steering), m_leader(_leader), m_bUseLeaderOrientation(_bUseLeaderOrientation),
+			m_nbInCircle(_nbInCircle), m_id(_id), m_maxId(_maxId),
+			m_distanceMax(_distanceMax), m_slowingDistance(_slowingDistance),
+			m_minAngle(_minAngle), m_maxAngle(_maxAngle), m_minRadius(_minRadius)
+		{
+			m_angleStart = 0.0f;
+		};
+		Vector2f& Update();
+	};
 } // namespace crea
 #endif

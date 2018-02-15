@@ -31,6 +31,7 @@ public:
 	vector<Steering*>*	m_vTargets;
 	vector<Obstacle*>*	m_vPath;
 	vector<Obstacle*>*	m_vObstacles;
+	int id;
 
 	//Add new states here
 	enum States {

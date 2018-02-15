@@ -1,0 +1,5 @@
+{ 	
+	"Mass":1,
+	"MaxForce":500,
+	"MaxSpeed":200
+}

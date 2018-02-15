@@ -288,42 +288,42 @@ namespace crea
 		return m_steeringForce;
 	}
 
-	//Vector2f& LeadFollowing::Update()
-	//{
-	//	Vector2f steeringPosition = m_steering->getPosition();
-	//	Vector2f steeringToLeader = steeringPosition - m_leader->getPosition();
-	//	Vector2f leadDirection = m_leader->getVelocity();
-	//	leadDirection.normalize();
+	Vector2f& LeadFollowing::Update()
+	{
+		Vector2f steeringPosition = m_steering->getPosition();
+		Vector2f steeringToLeader = steeringPosition - m_leader->getPosition();
+		Vector2f leadDirection = m_leader->getVelocity();
+		leadDirection.normalize();
 
-	//	float ang = leadDirection.angle(steeringToLeader);
-	//	if (ang < m_angle && steeringToLeader.length()<m_distance)
-	//	{
-	//		// Flee in front of leader
-	//		Vector2f frontOfLeader = (m_leader->getPosition() + leadDirection * m_distanceFlee);
-	//		m_desiredVelocity = steeringPosition - frontOfLeader;
-	//		m_desiredVelocity.normalize();
-	//		m_desiredVelocity *= m_steering->getMaxSpeed();
-	//		m_steeringForce = m_desiredVelocity - m_steering->getVelocity();
+		float ang = leadDirection.angle(steeringToLeader);
+		if (ang < m_angle && steeringToLeader.length()<m_distance)
+		{
+			// Flee in front of leader
+			Vector2f frontOfLeader = (m_leader->getPosition() + leadDirection * m_distanceFlee);
+			m_desiredVelocity = steeringPosition - frontOfLeader;
+			m_desiredVelocity.normalize();
+			m_desiredVelocity *= m_steering->getMaxSpeed();
+			m_steeringForce = m_desiredVelocity - m_steering->getVelocity();
 
-	//	}
-	//	else
-	//	{
-	//		// Arrive behind leader
-	//		Vector2f backOfLeader = (m_leader->getPosition() - leadDirection * m_distanceArrive);
-	//		double velocitylength = m_steering->getVelocity().length();
-	//		double slowingDistance = velocitylength * velocitylength / (m_steering->getMaxForce() / m_steering->getMass());
-	//		Vector2f targetOffset = backOfLeader - m_steering->getPosition();
-	//		double distance = targetOffset.length();
-	//		double rampedSpeed = m_steering->getMaxSpeed() * (distance / slowingDistance);
-	//		double clippedSpeed = MathTools::min(rampedSpeed, m_steering->getMaxSpeed());
-	//		m_desiredVelocity = targetOffset * (clippedSpeed / distance);
-	//		m_steeringForce = m_desiredVelocity - m_steering->getVelocity();
-	//		m_steeringForce.normalize();
-	//		m_steeringForce *= m_steering->getMaxForce();
-	//	}
+		}
+		else
+		{
+			// Arrive behind leader
+			Vector2f backOfLeader = (m_leader->getPosition() - leadDirection * m_distanceArrive);
+			double velocitylength = m_steering->getVelocity().length();
+			double slowingDistance = velocitylength * velocitylength / (m_steering->getMaxForce() / m_steering->getMass());
+			Vector2f targetOffset = backOfLeader - m_steering->getPosition();
+			double distance = targetOffset.length();
+			double rampedSpeed = m_steering->getMaxSpeed() * (distance / slowingDistance);
+			double clippedSpeed = MathTools::min(rampedSpeed, m_steering->getMaxSpeed());
+			m_desiredVelocity = targetOffset * (clippedSpeed / distance);
+			m_steeringForce = m_desiredVelocity - m_steering->getVelocity();
+			m_steeringForce.normalize();
+			m_steeringForce *= m_steering->getMaxForce();
+		}
 
-	//	return m_steeringForce;
-	//}
+		return m_steeringForce;
+	}
 
 	Vector2f& Swarming::Update()
 	{
@@ -373,112 +373,151 @@ namespace crea
 		return m_steeringForce;
 	}
 
-	//Vector2f& FormationV::Update()
-	//{
-	//	Vector2f forward(1.0f, 0.0f);
-	//	Vector2f right(0.0f, 1.0f);
-	//	if (m_bUseLeaderOrientation)
-	//	{
-	//		forward = m_leader->getVelocity().Normalized();
-	//		right = Vector2f(forward.y, -forward.x);
-	//	}
+	Vector2f& FormationV::Update()
+	{
+		Vector2f forward(1.0f, 0.0f);
+		Vector2f right(0.0f, 1.0f);
+		if (m_bUseLeaderOrientation)
+		{
+			forward = m_leader->getVelocity();
+			forward.normalize();
+			right = Vector2f(forward.getY(), -forward.getX());
+		}
 
-	//	// Add 1 unit per line to have an odd number 
-	//	if (m_nbInLine % 2 == 0)
-	//	{
-	//		m_nbInLine++;
-	//	}
-	//	// Use minimum between nbInLine and max units
-	//	if (m_nbInLine > m_maxId)
-	//	{
-	//		m_nbInLine = m_maxId;
-	//	}
+		// Add 1 unit per line to have an odd number 
+		if (m_nbInLine % 2 == 0)
+		{
+			m_nbInLine++;
+		}
+		// Use minimum between nbInLine and max units
+		if (m_nbInLine > m_maxId)
+		{
+			m_nbInLine = m_maxId;
+		}
 
-	//	int idRight = (m_id%m_nbInLine) - m_nbInLine / 2;
-	//	int idBack = m_id / m_nbInLine;
-	//	double fX = idRight * m_distanceMax;
-	//	double fY = abs(fX) * (double)tan(m_angle) + idBack * m_distanceMax; // Fleche + recul
-	//	Vector2f arrivalOffset = right * fX - forward * fY;
-	//	Vector2f arrivalPos = m_leader->getPosition() + arrivalOffset;
+		int idRight = (m_id%m_nbInLine) - m_nbInLine / 2;
+		int idBack = m_id / m_nbInLine;
+		double fX = idRight * m_distanceMax;
+		double fY = abs(fX) * (double)tan(m_angle) + idBack * m_distanceMax; // Fleche + recul
+		Vector2f arrivalOffset = right * fX - forward * fY;
+		Vector2f arrivalPos = m_leader->getPosition() + arrivalOffset;
 
-	//	//Arrival
-	//	Vector2f target_offset = arrivalPos - m_steering->getPosition();
-	//	double distance = target_offset.length();
-	//	double max_speed = m_steering->getMaxSpeed();
-	//	double ramped_speed = max_speed * (distance / m_slowingDistance);
-	//	double clipped_speed = (ramped_speed < max_speed) ? ramped_speed : max_speed;
-	//	Vector2f desired_velocity = target_offset * (clipped_speed / distance);
-	//	m_steeringForce = desired_velocity - m_steering->getVelocity();
+		//Arrival
+		Vector2f target_offset = arrivalPos - m_steering->getPosition();
+		double distance = target_offset.length();
+		double max_speed = m_steering->getMaxSpeed();
+		double ramped_speed = max_speed * (distance / m_slowingDistance);
+		double clipped_speed = (ramped_speed < max_speed) ? ramped_speed : max_speed;
+		Vector2f desired_velocity = target_offset * (clipped_speed / distance);
+		m_steeringForce = desired_velocity - m_steering->getVelocity();
 
-	//	return m_steeringForce;
-	//}
+		return m_steeringForce;
+	}
 
-	//Vector2f& FormationCircle::Update()
-	//{
-	//	Vector2f forward(1.0f, 0.0f);
-	//	Vector2f right(0.0f, 1.0f);
-	//	if (m_bUseLeaderOrientation)
-	//	{
-	//		forward = m_leader->getVelocity().Normalized();
-	//		right = Vector2f(forward.y, -forward.x);
-	//	}
+	Vector2f& FormationLine::Update()
+	{
+		Vector2f forward(1.0f, 0.0f);
+		Vector2f right(0.0f, 1.0f);
 
-	//	int idInCircle = m_id%m_nbInCircle;
-	//	int iCircle = m_id / m_nbInCircle;
-	//	int idMax = (m_maxAngle - m_minAngle) == 360.0f ? m_nbInCircle : m_nbInCircle - 1;
-	//	double angle = MathTools::lerp(MathTools::degreetoradian(m_minAngle), MathTools::degreetoradian(m_maxAngle), ((double)(idInCircle) / (double)(idMax)));
-	//	double distanceToLeader = m_minRadius + iCircle * m_distanceMax;
-	//	double fX = sin(angle) * distanceToLeader;
-	//	double fY = cos(angle) * distanceToLeader;
-	//	Vector2f arrivalOffset = right * fX + forward * fY;
-	//	Vector2f arrivalPos = m_leader->getPosition() + arrivalOffset;
+		// Add 1 unit per line to have an odd number 
+		if (m_nbInLine % 2 == 0)
+		{
+			m_nbInLine++;
+		}
+		// Use minimum between nbInLine and max units
+		if (m_nbInLine > m_maxId)
+		{
+			m_nbInLine = m_maxId;
+		}
 
-	//	//Arrival
-	//	Vector2f target_offset = arrivalPos - m_steering->getPosition();
-	//	double distance = target_offset.length();
-	//	double max_speed = m_steering->getMaxSpeed();
-	//	double ramped_speed = max_speed * (distance / m_slowingDistance);
-	//	double clipped_speed = (ramped_speed < max_speed) ? ramped_speed : max_speed;
-	//	Vector2f desired_velocity = target_offset * (clipped_speed / distance);
-	//	m_steeringForce = desired_velocity - m_steering->getVelocity();
+		int idRight = (m_id%m_nbInLine) - m_nbInLine / 2;
+		int idBack = m_id / m_nbInLine;
+		double fX = m_distanceMax * idRight;
+		double fY = idBack * m_interDistance; // Fleche + recul
+		Vector2f arrivalOffset = right * fX - forward * fY;
+		Vector2f arrivalPos = m_leader->getPosition() + arrivalOffset;
 
-	//	return m_steeringForce;
-	//}
+		//Arrival
+		Vector2f target_offset = arrivalPos - m_steering->getPosition();
+		double distance = target_offset.length();
+		double max_speed = m_steering->getMaxSpeed();
+		double ramped_speed = max_speed * (distance / m_slowingDistance);
+		double clipped_speed = (ramped_speed < max_speed) ? ramped_speed : max_speed;
+		Vector2f desired_velocity = target_offset * (clipped_speed / distance);
+		m_steeringForce = desired_velocity - m_steering->getVelocity();
 
-	//Vector2f& FormationDynamic::Update()
-	//{
-	//	Vector2f forward(1.0f, 0.0f);
-	//	Vector2f right(0.0f, 1.0f);
-	//	if (m_bUseLeaderOrientation)
-	//	{
-	//		forward = m_leader->getVelocity().Normalized();
-	//		right = Vector2f(forward.y, -forward.x);
-	//	}
+		return m_steeringForce;
+	}
 
-	//	//Move slots
-	//	m_angleStart += _dT;
+	Vector2f& FormationCircle::Update()
+	{
+		Vector2f forward(1.0f, 0.0f);
+		Vector2f right(0.0f, 1.0f);
+		if (m_bUseLeaderOrientation)
+		{
+			forward = m_leader->getVelocity();
+			forward.normalize();
+			right = Vector2f(forward.getY(), -forward.getX());
+		}
 
-	//	//Circle
-	//	int idInCircle = m_id%m_nbInCircle;
-	//	int iCircle = m_id / m_nbInCircle;
-	//	int idMax = (m_maxAngle - m_minAngle) == 360.0f ? m_nbInCircle : m_nbInCircle - 1;
-	//	double angle = m_angleStart + MathTools::lerp(MathTools::degreetoradian(m_minAngle), MathTools::degreetoradian(m_maxAngle), ((double)(idInCircle) / (double)(idMax)));
-	//	double distanceToLeader = m_minRadius + iCircle * m_distanceMax;
-	//	double fX = sin(angle) * distanceToLeader;
-	//	double fY = cos(angle) * distanceToLeader;
-	//	Vector2f arrivalOffset = right * fX + forward * fY;
-	//	Vector2f arrivalPos = m_leader->getPosition() + arrivalOffset;
+		int idInCircle = m_id%m_nbInCircle;
+		int iCircle = m_id / m_nbInCircle;
+		int idMax = (m_maxAngle - m_minAngle) == 360.0f ? m_nbInCircle : m_nbInCircle - 1;
+		double angle = MathTools::lerp(MathTools::degreetoradian(m_minAngle), MathTools::degreetoradian(m_maxAngle), ((double)(idInCircle) / (double)(idMax)));
+		double distanceToLeader = m_minRadius + iCircle * m_distanceMax;
+		double fX = sin(angle) * distanceToLeader;
+		double fY = cos(angle) * distanceToLeader;
+		Vector2f arrivalOffset = right * fX + forward * fY;
+		Vector2f arrivalPos = m_leader->getPosition() + arrivalOffset;
 
-	//	//Arrival
-	//	Vector2f target_offset = arrivalPos - m_steering->getPosition();
-	//	double distance = target_offset.length();
-	//	double max_speed = m_steering->getMaxSpeed();
-	//	double ramped_speed = max_speed * (distance / m_slowingDistance);
-	//	double clipped_speed = (ramped_speed < max_speed) ? ramped_speed : max_speed;
-	//	Vector2f desired_velocity = target_offset * (clipped_speed / distance);
-	//	m_steeringForce = desired_velocity - m_steering->getVelocity();
+		//Arrival
+		Vector2f target_offset = arrivalPos - m_steering->getPosition();
+		double distance = target_offset.length();
+		double max_speed = m_steering->getMaxSpeed();
+		double ramped_speed = max_speed * (distance / m_slowingDistance);
+		double clipped_speed = (ramped_speed < max_speed) ? ramped_speed : max_speed;
+		Vector2f desired_velocity = target_offset * (clipped_speed / distance);
+		m_steeringForce = desired_velocity - m_steering->getVelocity();
 
-	//	return m_steeringForce;
-	//}
+		return m_steeringForce;
+	}
+
+	Vector2f& FormationDynamic::Update()
+	{
+		Vector2f forward(1.0f, 0.0f);
+		Vector2f right(0.0f, 1.0f);
+		double _dT = TimeManager::getSingleton()->getFrameTime().asSeconds();
+		if (m_bUseLeaderOrientation)
+		{
+			forward = m_leader->getVelocity();
+			forward.normalize();
+			right = Vector2f(forward.getY(), -forward.getX());
+		}
+
+		//Move slots
+		m_angleStart += _dT;
+
+		//Circle
+		int idInCircle = m_id%m_nbInCircle;
+		int iCircle = m_id / m_nbInCircle;
+		int idMax = (m_maxAngle - m_minAngle) == 360.0f ? m_nbInCircle : m_nbInCircle - 1;
+		double angle = m_angleStart + MathTools::lerp(MathTools::degreetoradian(m_minAngle), MathTools::degreetoradian(m_maxAngle), ((double)(idInCircle) / (double)(idMax)));
+		double distanceToLeader = m_minRadius + iCircle * m_distanceMax;
+		double fX = sin(angle) * distanceToLeader;
+		double fY = cos(angle) * distanceToLeader;
+		Vector2f arrivalOffset = right * fX + forward * fY;
+		Vector2f arrivalPos = m_leader->getPosition() + arrivalOffset;
+
+		//Arrival
+		Vector2f target_offset = arrivalPos - m_steering->getPosition();
+		double distance = target_offset.length();
+		double max_speed = m_steering->getMaxSpeed();
+		double ramped_speed = max_speed * (distance / m_slowingDistance);
+		double clipped_speed = (ramped_speed < max_speed) ? ramped_speed : max_speed;
+		Vector2f desired_velocity = target_offset * (clipped_speed / distance);
+		m_steeringForce = desired_velocity - m_steering->getVelocity();
+
+		return m_steeringForce;
+	}
 
 } // namespace crea

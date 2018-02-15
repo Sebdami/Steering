@@ -49,14 +49,47 @@ bool SceneSteering::onInit()
 
 	Entity* balista = m_pGM->getEntity("balista1");
 
+	Entity* peon = m_pGM->getEntity("peon1");
+
+	vector<Entity*> m_vPeonEntities;
+	m_vPeonEntities.push_back(peon);
+	
 	// Define targets
 	targets = new vector<Steering*>();
 	targets->push_back(balista->getComponent<Steering>());
 
+	for (int i = 0; i < 4; i++)
+	{
+		Entity* newEntity = m_pGM->getEntity("peon" + to_string(i + 2));
+		string path = DATAAGENTPATH;
+		path+= "Peon/Peon" + std::to_string(i + 2) + ".ent";
+		newEntity->loadFromFileJSON(path);
+		newEntity->init();
+		newEntity->getComponent<SpriteRenderer>()->getSprite()->setOrigin(36.0f, 46.0f);
+		newEntity->setPosition(Vector2f(100.0f + 50.0f * i, 75.0f));
+		m_pGM->addEntity(newEntity);
+		targets->push_back(newEntity->getComponent<Steering>());
+		m_vPeonEntities.push_back(newEntity);
+	}
+
 
 	//Find obstacles
 	obstacles = new vector<Obstacle*>();
-	MapStringCollider* pStaticColliders = PhysicsManager::getSingleton()->getStaticColliders();
+	int iMin, iMax, jMin, jMax;
+	m_pMap->getTileIndexLimits(iMin, iMax, jMin, jMax);
+	for (int i = iMin; i < iMax; i++)
+	{
+		for (int j = jMin; j < jMax; j++)
+		{
+			if (m_pMap->getNode(i, j)->getTileCollisionId() != 0)
+			{
+				Vector2f position = Vector2f(i * 32 + 32, j*32 + 32);
+				obstacles->push_back(new Obstacle(position, 16.0f));
+			}
+		}
+	}
+	
+	/*MapStringCollider* pStaticColliders = PhysicsManager::getSingleton()->getStaticColliders();
 	MapStringCollider* pDynamicColliders = PhysicsManager::getSingleton()->getDynamicColliders();
 	for (auto i = pStaticColliders->begin(); i != pStaticColliders->end(); i++)
 	{
@@ -76,7 +109,7 @@ bool SceneSteering::onInit()
 		}
 		obstacles->push_back(new Obstacle(position, radius));
 	}
-
+*/
 	/*for (auto i = pDynamicColliders->begin(); i != pDynamicColliders->end(); i++)
 	{
 		float radius;
@@ -92,32 +125,26 @@ bool SceneSteering::onInit()
 		}
 		obstacles->push_back(new Obstacle((*i).second->getEntity()->getPosition(), radius));
 	}*/
-
-	list<Component*> comps;
-	Entity* peon = m_pGM->getEntity("peon1");
-	peon->getComponents<Component>(comps);
-
-	/*for (int i = 0; i < 5; i++)
+	int id = 0;
+	for (auto it = m_vPeonEntities.begin(); it != m_vPeonEntities.end(); it++)
 	{
-		Entity* newEntity = m_pGM->getEntity("peon" + i + 2);
-		SpriteRenderer* sr = new SpriteRenderer();
-		Sprite * sprite = m_pGM->getSprite("peon" + i + 2);
-		string p = "peon" + std::to_string(i + 2) + ".png";
-		sprite->setTexture(m_pGM->getTexture(p));
-		sr->setSprite(sprite);
-		newEntity->addComponent(sr);
-
-		
-
-		newEntity->setPosition(Vector2f(150 + 50 * i, 150));
-		m_pGM->addEntity(newEntity);
-	}*/
-
-	FSMSteering* fsm = m_pGM->getEntity("peon1")->getComponent<FSMSteering>();
-	fsm->m_pTarget = m_pMouseEntity->getComponent<Steering>();
-	fsm->m_vTargets = targets;
-	fsm->m_vPath = path;
-	fsm->m_vObstacles = obstacles;
+		FSMSteering* fsm =(*it)->getComponent<FSMSteering>();
+		fsm->m_pTarget = m_pMouseEntity->getComponent<Steering>();
+		targets->clear();
+		for (auto j = m_vPeonEntities.begin(); j != m_vPeonEntities.end(); j++)
+		{
+			if ((*j) != (*it))
+			{
+				targets->push_back((*j)->getComponent<Steering>());
+			}
+		}
+		targets->push_back(balista->getComponent<Steering>());
+		fsm->m_vTargets = targets;
+		fsm->m_vPath = path;
+		fsm->m_vObstacles = obstacles;
+		fsm->id = id++;
+	}
+	
 	// Steering Tools
 	if (m_bUseSteeringTools)
 	{

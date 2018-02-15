@@ -26,6 +26,22 @@ class CellsScriptFactory : public ScriptFactory
 		{
 			return new CharacterController;
 		}
+		else if (_szName == "CharacterController2")
+		{
+			return new CharacterController;
+		}
+		else if (_szName == "CharacterController3")
+		{
+			return new CharacterController;
+		}
+		else if (_szName == "CharacterController4")
+		{
+			return new CharacterController;
+		}
+		else if (_szName == "CharacterController5")
+		{
+			return new CharacterController;
+		}
 		else if (_szName == "UserController")
 		{
 			return new UserController;
@@ -39,6 +55,22 @@ class CellsScriptFactory : public ScriptFactory
 			return new FSMBalista;
 		}
 		else if (_szName == "FSMSteering")
+		{
+			return new FSMSteering;
+		}
+		else if (_szName == "FSMSteering2")
+		{
+			return new FSMSteering;
+		}
+		else if (_szName == "FSMSteering3")
+		{
+			return new FSMSteering;
+		}
+		else if (_szName == "FSMSteering4")
+		{
+			return new FSMSteering;
+		}
+		else if (_szName == "FSMSteering5")
 		{
 			return new FSMSteering;
 		}
